@@ -92,9 +92,3 @@ src/
 1. Create a branch from `main`.  
 2. Run `npm run lint` (and fix issues) before opening a pull request.  
 3. Pre-commit hooks (via Husky) run lint-staged on staged TypeScript/JavaScript files.
-
----
-
-## License
-
-Private project (`"private": true` in `package.json`). Add a license file if you intend to open-source or distribute the codebase.
