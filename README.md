@@ -1,73 +1,100 @@
-# React + TypeScript + Vite
+# Aabhushanam E‑commerce (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aabhushanam is a **jewellery e‑commerce storefront** built as a **single-page application (SPA)**. This repository contains the **customer-facing frontend only**: product discovery, merchandising, cart and checkout UI, account area, and authentication screens. Product data and order flows are currently **mocked on the client** for demonstration; wiring a real API is the natural next step for production.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech stack
 
-## React Compiler
+| Layer | Technology |
+|--------|------------|
+| **UI framework** | [React 19](https://react.dev/) |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) (~5.9) |
+| **Build & dev server** | [Vite 8](https://vitejs.dev/) with [`@vitejs/plugin-react`](https://github.com/vitejs/vite-plugin-react) |
+| **Routing** | [React Router 7](https://reactrouter.com/) (`BrowserRouter`, nested routes) |
+| **Components & layout** | [Material UI (MUI) 7](https://mui.com/) with [Emotion](https://emotion.sh/) for styling |
+| **Icons** | [`@mui/icons-material`](https://mui.com/material-ui/material-icons/) |
+| **Server state (ready for APIs)** | [TanStack Query (React Query) 5](https://tanstack.com/query/latest) |
+| **Session (demo)** | [`js-cookie`](https://github.com/js-cookie/js-cookie) for lightweight auth flags |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Tooling:** ESLint 9, Prettier 3, `typescript-eslint`, Husky + lint-staged for pre-commit quality checks.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features (high level)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Responsive **home**, **catalog (PLP)**, **product detail (PDP)** with gallery and recommendation-style rails  
+- **Cart**, **checkout** UI, **wishlist**, **store locator**, and **account** shell (profile, addresses, payment, orders)  
+- **Auth** routes: login, signup, forgot password, logout (cookie-based session for the demo)  
+- **Merchandising** blocks: featured collections, product rails, trust and footer content  
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting started
+
+**Requirements:** Node.js **20+** (recommended) and npm.
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server (with HMR)
+npm run dev
+
+# Production build
+npm run build
+
+# Preview production build locally
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The dev server URL is printed in the terminal (typically `http://localhost:5173`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Vite in development mode |
+| `npm run build` | Type-check (`tsc -b`) then output an optimized production bundle |
+| `npm run preview` | Serve the built app locally |
+| `npm run lint` | Run ESLint on the project |
+
+---
+
+## Project layout (overview)
+
 ```
+src/
+├── components/     # Shared UI (layout, header, footer, product cards, carousels)
+├── context/        # Client state (e.g. cart, wishlist, recently viewed)
+├── data/           # Static / mock catalogue data
+├── pages/          # Route-level screens (home, products, account, auth, cart)
+├── providers/      # App-wide providers (router, theme, query client)
+├── routes/         # Route configuration and auth route table
+├── types/          # Shared TypeScript types
+└── utils/          # Helpers (cookies, HTTP placeholder, etc.)
+```
+
+---
+
+## Configuration notes
+
+- **Environment:** No `.env` is required for the current mock UI. When you connect a backend, add env variables as needed and document them here.
+- **Auth:** The demo uses cookies for a simple “logged in” flag. Replace with your real identity provider or session API before production.
+- **API:** `src/utils/http.ts` and related auth hooks may reference patterns from other projects; align them with your actual backend before shipping.
+
+---
+
+## Contributing
+
+1. Create a branch from `main`.  
+2. Run `npm run lint` (and fix issues) before opening a pull request.  
+3. Pre-commit hooks (via Husky) run lint-staged on staged TypeScript/JavaScript files.
+
+---
+
+## License
+
+Private project (`"private": true` in `package.json`). Add a license file if you intend to open-source or distribute the codebase.
